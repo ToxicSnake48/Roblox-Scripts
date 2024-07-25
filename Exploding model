@@ -1,0 +1,34 @@
+-- TS48
+
+-- Ensures the script is run in a safe environment
+local selection = game.Selection:Get()[1]
+
+-- Checks if the selection is valid and is a model
+if not selection or not selection:IsA("Model") then
+    warn("Please select a model.")
+    return
+end
+
+-- Iterates through each part in the model
+for _, part in ipairs(selection:GetDescendants()) do
+    if part:IsA("BasePart") then
+        -- Create an explosion
+        local explosion = Instance.new("Explosion")
+        explosion.Position = part.Position
+        explosion.BlastRadius = 0
+        explosion.BlastPressure = 0
+        explosion.Parent = workspace
+        
+        -- Waits for the explosion to be processed
+        task.wait(0.1)
+        
+        -- Removes the part
+        part:Destroy()
+        
+        -- Removes the explosion instance
+        explosion:Destroy()
+    end
+end
+
+-- deletes the entire model
+selection:Destroy()
