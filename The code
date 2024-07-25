@@ -23,6 +23,7 @@ for x = 0, X_SIZE, CUBE_SIZE do
         part.Size = Vector3.new(CUBE_SIZE, height, CUBE_SIZE)
         part.Position = Vector3.new(x + xOffset, height / 2 + yOffset, z + zOffset)
         part.Anchored = true -- the stuff below is just because I wanted the least lag possible
+        part.CastShadow = false
         part.CanCollide = false
         part.CanTouch = false
         part.CanQuery = false
