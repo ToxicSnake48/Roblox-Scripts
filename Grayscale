@@ -1,0 +1,18 @@
+local function toGrayscale(color)
+    local gray = 0.3 * color.r + 0.59 * color.g + 0.11 * color.b
+    return Color3.new(gray, gray, gray)
+end
+
+local function grayscaleParts(parent)
+    for _, obj in pairs(parent:GetDescendants()) do
+        if obj:IsA("BasePart") then
+            obj.Color = toGrayscale(obj.Color)
+        elseif obj:IsA("Decal") or obj:IsA("Texture") or obj:IsA("ImageLabel") or obj:IsA("ImageButton") then
+            obj.Color3 = toGrayscale(obj.Color3)
+        elseif obj:IsA("UIGradient") then
+            obj.Color = ColorSequence.new(toGrayscale(obj.Color.Keypoints[1].Value), toGrayscale(obj.Color.Keypoints[#obj.Color.Keypoints].Value))
+        end
+    end
+end
+
+grayscaleParts(workspace)
