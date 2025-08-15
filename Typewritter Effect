@@ -1,0 +1,15 @@
+--TS48
+
+local textLabel = script.Parent -- The TextLabel
+local typingSpeed = 0.05 -- Seconds per letter
+
+local function typewriterEffect(fullText)
+	textLabel.Text = ""
+	for i = 1, #fullText do
+		textLabel.Text = string.sub(fullText, 1, i)
+		task.wait(typingSpeed)
+	end
+end
+
+-- this runs the function, you can call it whenever
+typewriterEffect("This is an example of a typewriter effect.")
