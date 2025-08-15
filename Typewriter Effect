@@ -1,0 +1,82 @@
+--TS48
+
+local textLabel = script.Parent -- The TextLabel (duh)
+local typingSpeed = 0.05 -- Seconds per letter
+
+local function typewriterEffect(fullText)
+	textLabel.Text = ""
+	for i = 1, #fullText do
+		textLabel.Text = string.sub(fullText, 1, i)
+		task.wait(typingSpeed)
+	end
+end
+
+-- this lets you call it whenever you want "typewriterEffect" is the function name and anything in ("") is what gets typed out in the TextLabel
+typewriterEffect("This is an example of a typewriter effect.")
+
+
+
+
+
+-- EXAMPLES! FEEL FREE TO DELETE THIS PART!
+
+-- theres a few ways you can trigger this code, I've listed a few of the more common ones that are used. You should remove the ones you aren't using when you copy this script.
+-- You will also need to add a Debounce to stop it from spamming (https://create.roblox.com/docs/scripting/debounce)
+
+
+-- [UI Button Click:]
+local button = script.Parent:WaitForChild("Button") -- "Button" in this case is a TextButton
+button.MouseButton1Click:Connect(function()
+    typewriterEffect("This is an example of a typewriter effect triggered by a button click!")
+end)
+
+
+-- [On Player Input:]
+local UserInputService = game:GetService("UserInputService")
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+    if input.KeyCode == Enum.KeyCode.E then -- Change "E" to whatever KeyCode you want
+        typewriterEffect("This is an example of a typewriter effect triggered by pressing E!")
+    end
+end)
+
+
+-- [On Player Touch:]
+local part = workspace:WaitForChild("TriggerPart") --  change to the path of your trigger
+local player = game.Players.LocalPlayer
+
+part.Touched:Connect(function(hit)
+    if hit.Parent == player.Character then -- Checks if the part that touched the object belongs to that specific player
+        typewriterEffect("This is an example of a typewriter effect triggered by touching a part!")
+    end
+end)
+
+
+-- [RemoteEvent:] 
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local event = ReplicatedStorage:WaitForChild("TypewriterEvent") -- You will need to create a RemoteEvent in ReplicatedStorage. You can name it whatever you want just make sure you change the name to match it.
+
+event.OnClientEvent:Connect(function(message) -- using this you will need to fire it from a script in ServerScriptService.
+    typewriterEffect(message)
+end)
+
+-- On server, you can fire it like this:
+-- event:FireClient(player, "This is an example of a typewriter effect triggered by a remote event!")
+
+
+-- [on GUI Visible:]
+script.Parent:GetPropertyChangedSignal("Visible"):Connect(function()
+    if script.Parent.Visible then
+        typewriterEffect("This is an example of a typewriter effect triggered because I'm visible")
+    end
+end)
+
+
+-- [On ProximityPrompt:]
+local promptPart = workspace:WaitForChild("PromptPart") -- Path to part with ProximityPrompt
+local prompt = promptPart:WaitForChild("ProximityPrompt")
+
+prompt.Triggered:Connect(function(player)
+    typewriterEffect("This is an example of a typewriter effect triggered with a Proximity Prompt!")
+end)
